@@ -1,6 +1,6 @@
 [package]
 name = "ope-rust-web-server"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Opeyemi"]
 edition = "2021"
 description = "A library for creating a static web server"
@@ -13,3 +13,6 @@ path = "src/server/mod.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+[profile.release]
+opt-level = 3
