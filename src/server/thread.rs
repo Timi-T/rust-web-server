@@ -24,6 +24,19 @@ impl ThreadPool {
     /// 
     /// * `pool_size` - This represents the number of workers/threads the server is started with.
     /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// use server::thread::ThreadPool;
+    /// 
+    /// let pool: ThreadPool = ThreadPool::new(5);
+    /// assert_eq!(pool.workers.len(), 5);
+    /// ```
+    /// 
+    /// # Panics
+    /// 
+    /// The associated function panics when the pool size provided is less that 1 or greater than 100.
+    /// 
     pub fn new(pool_size: usize) -> ThreadPool {
 
         assert!(pool_size > 0 && pool_size <= 100, "Pool size must be greater than 0 and less than or equal to 100");
@@ -82,6 +95,7 @@ impl Worker {
     /// Function to spawn a thread that continously listens for requests and executes any it gets.
     /// 
     /// Args
+    /// 
     /// * `receiver` - This is a Reciever type that recieves requests from the thread-pool channel.
     /// 
     pub fn new(id: usize, reciever: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {

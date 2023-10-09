@@ -37,12 +37,27 @@ impl CliArgs {
     /// # Example
     /// 
     /// ```
-    /// use doc::CliArgs;
-    /// let args: CliArgs = CliArgs::get(true);
+    /// use server::process::CliArgs;
+    /// use std::env;
     /// 
-    /// assert!(5 > 1)
+    /// // Default port
+    /// let args: CliArgs = CliArgs::get();
+    /// assert_eq!(args.thread_count, 10);
+    /// 
+    /// // Default file path
+    /// let env_args: Vec<String> = env::args().collect();
+    /// assert_eq!(args.dir_path, env_args.get(0).unwrap().as_str());
+    /// 
+    /// // No port
+    /// assert_eq!(args.port, None);
     /// ```
-    
+    /// 
+    /// # Panics
+    /// 
+    /// - Panics if a command line argument is not allowed. Allowed args include `--threads`, `--port`, `--dir-path`.
+    /// - Panics if a value is not provided for an argument.
+    /// - Panics if the value for `--threads` is not an integer.
+    /// 
     pub fn get() -> CliArgs {
         let args: Vec<String> = env::args().collect();
         let mut return_args = CliArgs { port: None, thread_count: 10, dir_path: String::from(args[0].as_str()) };

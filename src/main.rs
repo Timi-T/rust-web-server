@@ -1,10 +1,9 @@
 use std::net::TcpListener;
 use std::io::ErrorKind;
-
-mod server;
-use server::thread::ThreadPool;
-use server::process::CliArgs;
-use server::request::handle_connection;
+use ::server::thread::ThreadPool;
+use ::server::process::CliArgs;
+use ::server::request::handle_connection;
+pub mod server;
 
 fn main() {
     let args = CliArgs::get();

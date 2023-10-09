@@ -4,12 +4,12 @@
 
 use std::{fs, net::TcpStream};
 use std::io::prelude::*;
-use crate::server::process::CliArgs;
+use super::process::CliArgs;
 
 #[derive(Debug)]
 /// The requests made to the web-server are represented in the data structure `RequestObject`
 /// The only supported request method on the server is `GET`
-struct RequestObject {
+pub struct RequestObject {
     /// This represents the request method of the request received by the server
     pub method: String,
 
@@ -27,12 +27,24 @@ impl RequestObject {
     /// # Example
     /// 
     /// ```
-    /// use doc::RequestObject;
-    /// let req_obj: RequeustObject = RequestObject::new("GET / Content-Length: 0\r\n\r\n");
+    /// use server::request::RequestObject;
+    /// let req_obj: Option<RequestObject> = RequestObject::new(&String::from("GET / Content-Length: 0\r\n\r\n"));
     /// 
-    /// assert!(req_obj.method == "GET");
-    /// assert!(req_obj.route == "/");
+    /// match req_obj {
+    ///     Some(obj) => {
+    ///         assert!(obj.method == "GET");
+    ///         assert!(obj.route == "/");
+    ///     }
+    ///     None => {}
+    /// }
+    /// 
     /// ```
+    /// 
+    /// # Panics
+    /// 
+    /// - Panics if the request methos is not a `GET` method
+    /// - Panics if the route does not start with `/`.
+    ///  
     pub fn new(request: &String) -> Option<RequestObject> {
         let allowed_methods = ["GET"];
         let req_args: Vec<&str> = request.split(" ").collect();
